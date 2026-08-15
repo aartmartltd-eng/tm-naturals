@@ -109,26 +109,6 @@ body {
   background: transparent;
 }
 
-@keyframes hero-abstract-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.hero-abstract-enter {
-  opacity: 0;
-  animation: hero-abstract-enter 0.85s ease-out forwards;
-}
-
-.hero-abstract-group:hover .hero-abstract-enter:nth-child(1) {
-  transition: transform 1.2s ease-out;
-}
-
 .cart-scroll::-webkit-scrollbar-thumb {
   background: var(--tm-border);
   border-radius: 3px;

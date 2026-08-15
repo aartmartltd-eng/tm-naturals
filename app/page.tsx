@@ -9,10 +9,11 @@ import ShopSaveSection from "@/app/components/ShopSaveSection";
 import ProductCart from "@/app/components/ProductCart";
 import FaqSection from "@/app/components/FaqSection";
 import { getProductById, products } from "@/data/products";
-import HeroProductShowcase from "@/app/components/HeroProductShowcase";
+import HeroVideoBackground from "@/app/components/HeroVideoBackground";
 import SectionHeading from "@/app/components/SectionHeading";
 import WhyFeaturesList from "@/app/components/WhyFeaturesList";
 import WhyIntro from "@/app/components/WhyIntro";
+import AboutBrandVisual from "@/app/components/AboutBrandVisual";
 
 const trustMetrics = [
   {
@@ -98,45 +99,71 @@ export default function Home() {
       <Header />
 
       <main>
-        {/* Hero — Black */}
-        <section id="home" className="relative bg-tm-black overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-tm-green/10 blur-3xl" />
-            <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-tm-orange/10 blur-3xl" />
-          </div>
+        {/* Hero — full-bleed video */}
+        <section
+          id="home"
+          className="relative isolate overflow-hidden bg-tm-black min-h-[680px] sm:min-h-[720px] lg:min-h-[calc(100svh-7.5rem)] lg:max-h-[850px]"
+        >
+          <HeroVideoBackground />
 
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="max-w-xl">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-tm-green mb-6">
-                  Premium Daily Wellness
-                </p>
-                <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-white font-extrabold leading-[1.08] tracking-tight">
-                  Wellness,{" "}
-                  <span className="text-tm-green">Naturally</span>{" "}
-                  <span className="text-tm-orange">Better.</span>
-                </h1>
-                <p className="mt-6 text-base sm:text-lg text-white/65 leading-relaxed max-w-md">
-                  Thoughtfully made supplements designed to support simple,
-                  consistent everyday wellness.
-                </p>
-                <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                  <Link
-                    href="#shop"
-                    className="inline-flex items-center justify-center py-3.5 px-8 rounded-lg bg-tm-green text-tm-black text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-orange transition-colors duration-200"
-                  >
-                    Shop All Products
-                  </Link>
-                  <Link
-                    href="#best-sellers"
-                    className="inline-flex items-center justify-center py-3.5 px-8 rounded-lg border border-white/40 bg-transparent text-white text-xs font-bold tracking-[0.14em] uppercase hover:bg-white hover:text-tm-black transition-colors duration-200"
-                  >
-                    Explore Best Sellers
-                  </Link>
-                </div>
+          {/* Mobile — stronger readability overlay */}
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none lg:hidden"
+            style={{
+              background: `
+                linear-gradient(90deg, rgba(1, 1, 1, 0.92) 0%, rgba(1, 1, 1, 0.78) 42%, rgba(1, 1, 1, 0.42) 100%),
+                linear-gradient(180deg, rgba(1, 1, 1, 0.55) 0%, transparent 24%, transparent 58%, rgba(1, 1, 1, 0.72) 100%)
+              `,
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Desktop — cinematic left-weighted overlay */}
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none hidden lg:block"
+            style={{
+              background: `
+                linear-gradient(90deg, rgba(1, 1, 1, 0.82) 0%, rgba(1, 1, 1, 0.58) 38%, rgba(1, 1, 1, 0.18) 70%, rgba(1, 1, 1, 0.08) 100%),
+                linear-gradient(180deg, rgba(1, 1, 1, 0.28) 0%, transparent 26%, transparent 74%, rgba(1, 1, 1, 0.38) 100%)
+              `,
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Bottom fade into trust metrics */}
+          <div
+            className="absolute bottom-0 inset-x-0 h-24 sm:h-28 z-[1] pointer-events-none bg-gradient-to-t from-tm-black via-tm-black/70 to-transparent"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 mx-auto flex min-h-[680px] sm:min-h-[720px] lg:min-h-[calc(100svh-7.5rem)] lg:max-h-[850px] max-w-7xl items-end px-6 pb-14 sm:px-8 sm:pb-16 lg:items-center lg:px-10 lg:pb-0 lg:py-16">
+            <div className="max-w-xl w-full">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-tm-green mb-5 sm:mb-6">
+                Premium Daily Wellness
+              </p>
+              <h1 className="font-display text-[2rem] leading-[1.1] sm:text-5xl lg:text-6xl text-white font-extrabold tracking-tight">
+                Wellness,{" "}
+                <span className="text-tm-green">Naturally</span>{" "}
+                <span className="text-tm-orange">Better.</span>
+              </h1>
+              <p className="mt-5 sm:mt-6 text-base sm:text-lg text-white/70 leading-relaxed max-w-md">
+                Thoughtfully made supplements designed to support simple,
+                consistent everyday wellness.
+              </p>
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <Link
+                  href="#shop"
+                  className="inline-flex w-full sm:w-auto items-center justify-center py-3.5 px-8 rounded-lg bg-tm-green text-tm-black text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-orange transition-colors duration-200"
+                >
+                  Shop All Products
+                </Link>
+                <Link
+                  href="#best-sellers"
+                  className="inline-flex w-full sm:w-auto items-center justify-center py-3.5 px-8 rounded-lg border border-white/50 bg-black/30 text-white text-xs font-bold tracking-[0.14em] uppercase backdrop-blur-[2px] hover:bg-white hover:text-tm-black transition-colors duration-200"
+                >
+                  Explore Best Sellers
+                </Link>
               </div>
-
-              <HeroProductShowcase />
             </div>
           </div>
         </section>
@@ -396,17 +423,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start lg:items-end justify-center">
-                <p className="font-display text-6xl sm:text-7xl lg:text-8xl font-extrabold leading-[0.88] tracking-tight text-tm-black">
-                  TM
-                  <br />
-                  NATURALS
-                </p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="h-px w-12 bg-tm-green" aria-hidden="true" />
-                  <div className="h-1 w-8 bg-tm-orange rounded-full" aria-hidden="true" />
-                </div>
-              </div>
+              <AboutBrandVisual />
             </div>
           </div>
         </section>

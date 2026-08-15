@@ -52,18 +52,18 @@ export default function Header() {
         }`}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-5 lg:px-10">
-          <div className="flex min-h-[64px] h-16 items-center justify-between gap-3 lg:grid lg:h-[4.5rem] lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
+          <div className="flex h-[78px] items-center justify-between gap-3 lg:grid lg:h-[88px] lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
             <Link
               href="#home"
-              className="flex shrink-0 items-center lg:justify-self-start"
+              className="relative flex shrink-0 items-center lg:justify-self-start"
               aria-label="TM NATURALS Home"
             >
               <Image
                 src="/images/tm-naturals-logo.png"
                 alt="TM NATURALS"
-                width={168}
-                height={56}
-                className="h-auto w-[140px] shrink-0 object-contain sm:w-[155px] lg:h-10 lg:w-auto lg:max-w-[168px]"
+                width={195}
+                height={65}
+                className="h-auto w-[150px] shrink-0 object-contain sm:w-[165px] lg:w-[185px]"
                 priority
               />
             </Link>
