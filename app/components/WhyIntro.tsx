@@ -8,19 +8,20 @@ const brandDetails = [
 
 export default function WhyIntro() {
   return (
-    <div className="max-w-md lg:pr-8">
+    <div className="mx-auto max-w-md text-center lg:mx-0 lg:pr-8 lg:text-left">
       <SectionHeading
         eyebrow="Why TM NATURALS"
         title="Wellness, Thoughtfully Made."
+        centerOnMobile
       />
-      <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-      <p className="mt-6 text-base text-tm-muted leading-relaxed">
+      <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+      <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-tm-muted lg:mx-0">
         We focus on clear formulas, practical daily use, and thoughtfully
         selected ingredients designed to fit naturally into everyday wellness
         routines.
       </p>
 
-      <div className="mt-9 grid max-w-md grid-cols-3 divide-x divide-[rgba(1,1,1,0.12)]">
+      <div className="mx-auto mt-9 grid max-w-md grid-cols-3 divide-x divide-[rgba(1,1,1,0.12)] lg:mx-0">
         {brandDetails.map((item, index) => (
           <div
             key={item.label}
@@ -32,7 +33,7 @@ export default function WhyIntro() {
         ))}
       </div>
 
-      <div className="mt-9 max-w-md">
+      <div className="mx-auto mt-9 max-w-md lg:mx-0">
         <div
           aria-hidden="true"
           className="h-px w-full bg-[rgba(1,1,1,0.10)]"
@@ -40,12 +41,12 @@ export default function WhyIntro() {
         <p className="mt-8 font-display text-xl font-medium leading-snug text-[#010101] md:text-2xl">
           Made for the way you live.
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-[#686868]">
+        <p className="mt-3 text-sm leading-relaxed text-tm-muted-secondary">
           Simple choices. Thoughtful formulas. Everyday wellness.
         </p>
         <div
           aria-hidden="true"
-          className="mt-4 flex"
+          className="mt-4 flex justify-center lg:justify-start"
         >
           <span className="h-0.5 w-7 bg-[#8FC642]" />
           <span className="h-0.5 w-[10px] bg-[#FFA304]" />

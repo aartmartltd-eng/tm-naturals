@@ -40,12 +40,18 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scroll-mt-24 bg-tm-soft-white">
-      <div className="mx-auto max-w-3xl px-6 lg:px-10 py-20 lg:py-28">
-        <SectionHeading eyebrow="FAQ" title="Questions? Start Here." />
-        <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
+    <section id="faq" className="scroll-mt-24 bg-tm-white">
+      <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
+        <div className="text-center lg:text-left">
+          <SectionHeading
+            eyebrow="FAQ"
+            title="Questions? Start Here."
+            centerOnMobile
+          />
+          <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+        </div>
 
-        <div className="mt-12 divide-y divide-tm-border border-y border-tm-border">
+        <div className="mt-10 divide-y divide-tm-border border-y border-tm-border lg:mt-12">
           {faqItems.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
@@ -59,7 +65,7 @@ export default function FaqSection() {
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full min-h-[56px] items-center justify-between gap-4 py-5 text-left transition-colors hover:text-tm-green"
+                  className="flex w-full min-h-[48px] items-center justify-between gap-4 py-4 text-left transition-colors hover:text-tm-green sm:py-5"
                 >
                   <span className="text-base sm:text-lg font-semibold text-tm-black">
                     {item.question}

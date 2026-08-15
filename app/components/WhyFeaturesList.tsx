@@ -74,7 +74,7 @@ export default function WhyFeaturesList() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-w-0 lg:max-w-[560px] lg:pl-6 lg:justify-self-end"
+      className="relative mx-auto w-full min-w-0 max-w-md lg:max-w-[560px] lg:pl-6 lg:justify-self-end"
     >
       <div
         aria-hidden="true"
@@ -111,7 +111,7 @@ export default function WhyFeaturesList() {
                 {feature.title}
               </h3>
             </div>
-            <p className="why-principle-desc mt-3 max-w-sm pl-9 text-sm leading-relaxed text-[#686868] transition-colors duration-300 ease-out md:pl-[3.75rem] md:text-base">
+            <p className="why-principle-desc mt-3 max-w-sm pl-9 text-sm leading-relaxed text-tm-muted-secondary transition-colors duration-300 ease-out md:pl-[3.75rem] md:text-base">
               {feature.description}
             </p>
           </li>

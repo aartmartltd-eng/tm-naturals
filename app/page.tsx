@@ -14,6 +14,8 @@ import SectionHeading from "@/app/components/SectionHeading";
 import WhyFeaturesList from "@/app/components/WhyFeaturesList";
 import WhyIntro from "@/app/components/WhyIntro";
 import AboutBrandVisual from "@/app/components/AboutBrandVisual";
+import ApproachRhythmVisual from "@/app/components/ApproachRhythmVisual";
+import ContactSectionVisual from "@/app/components/ContactSectionVisual";
 import TrustStrip from "@/app/components/TrustStrip";
 
 const formulaCategories = [
@@ -84,7 +86,7 @@ export default function Home() {
         {/* Hero — full-bleed video */}
         <section
           id="home"
-          className="relative isolate overflow-hidden bg-tm-black min-h-[680px] sm:min-h-[720px] lg:min-h-[calc(100svh-7.5rem)] lg:max-h-[850px]"
+          className="relative isolate overflow-hidden bg-tm-black min-h-[680px] sm:min-h-[720px] lg:min-h-[820px] lg:max-h-[960px]"
         >
           <HeroVideoBackground />
 
@@ -94,7 +96,7 @@ export default function Home() {
             style={{
               background: `
                 linear-gradient(90deg, rgba(1, 1, 1, 0.92) 0%, rgba(1, 1, 1, 0.78) 42%, rgba(1, 1, 1, 0.42) 100%),
-                linear-gradient(180deg, rgba(1, 1, 1, 0.55) 0%, transparent 24%, transparent 58%, rgba(1, 1, 1, 0.72) 100%)
+                linear-gradient(180deg, rgba(1, 1, 1, 0.5) 0%, transparent 24%, transparent 58%, rgba(1, 1, 1, 0.65) 100%)
               `,
             }}
             aria-hidden="true"
@@ -106,7 +108,7 @@ export default function Home() {
             style={{
               background: `
                 linear-gradient(90deg, rgba(1, 1, 1, 0.82) 0%, rgba(1, 1, 1, 0.58) 38%, rgba(1, 1, 1, 0.18) 70%, rgba(1, 1, 1, 0.08) 100%),
-                linear-gradient(180deg, rgba(1, 1, 1, 0.28) 0%, transparent 26%, transparent 74%, rgba(1, 1, 1, 0.38) 100%)
+                linear-gradient(180deg, rgba(1, 1, 1, 0.24) 0%, transparent 26%, transparent 74%, rgba(1, 1, 1, 0.34) 100%)
               `,
             }}
             aria-hidden="true"
@@ -118,7 +120,7 @@ export default function Home() {
             aria-hidden="true"
           />
 
-          <div className="relative z-10 mx-auto flex min-h-[680px] sm:min-h-[720px] lg:min-h-[calc(100svh-7.5rem)] lg:max-h-[850px] max-w-7xl items-end px-6 pb-14 sm:px-8 sm:pb-16 lg:items-center lg:px-10 lg:pb-0 lg:py-16">
+          <div className="relative z-10 mx-auto flex min-h-[680px] sm:min-h-[720px] lg:min-h-[820px] lg:max-h-[960px] max-w-7xl items-end px-5 pb-14 sm:px-8 sm:pb-16 lg:items-center lg:px-10 lg:pb-0 lg:py-16">
             <div className="max-w-xl w-full">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-tm-green mb-5 sm:mb-6">
                 Premium Daily Wellness
@@ -156,15 +158,16 @@ export default function Home() {
         <section id="shop" className="scroll-mt-24 bg-tm-white">
           <div
             id="best-sellers"
-            className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28 scroll-mt-24"
+            className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28 scroll-mt-24"
           >
-            <div className="mb-12 lg:mb-14">
+            <div className="mb-10 text-center lg:mb-14 lg:text-left">
               <SectionHeading
                 eyebrow="Shop & Save"
                 title="Choose the products that fit you."
+                centerOnMobile
               />
-              <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#686868]">
+              <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+              <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-tm-muted lg:mx-0 lg:max-w-2xl lg:text-left">
                 Choose your product, select your preferred pack size, and build a
                 routine that works for you.
               </p>
@@ -175,8 +178,8 @@ export default function Home() {
         </section>
 
         {/* Why TM NATURALS */}
-        <section className="bg-tm-soft-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
+        <section className="bg-tm-off-white">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
             <div className="relative grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-16 xl:gap-24 items-start">
               <div
                 aria-hidden="true"
@@ -191,33 +194,37 @@ export default function Home() {
         </section>
 
         {/* Contact */}
-        <section id="contact" className="scroll-mt-24 bg-tm-black">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
-            <div className="max-w-lg">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8FC642] mb-3">
-                Get In Touch
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white font-extrabold tracking-tight">
-                Questions? We&apos;re Here to Help.
-              </h2>
-              <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-              <p className="mt-6 text-base text-white/70 leading-relaxed">
-                Questions about products, orders, or your TM NATURALS experience?
-                Reach out and our team will be happy to help.
-              </p>
-              <a
-                href="mailto:contact@tm-naturals.com"
-                className="mt-10 inline-block text-xl sm:text-2xl lg:text-3xl font-medium text-white underline decoration-tm-green decoration-2 underline-offset-8 transition-colors duration-200 hover:text-tm-green"
-              >
-                contact@tm-naturals.com
-              </a>
+        <section id="contact" className="scroll-mt-24 bg-tm-white">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+              <div className="mx-auto max-w-lg text-center lg:mx-0 lg:text-left">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#8FC642] mb-3">
+                  Get In Touch
+                </p>
+                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#010101] font-extrabold tracking-tight">
+                  Questions? We&apos;re Here to Help.
+                </h2>
+                <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+                <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-tm-muted lg:mx-0">
+                  Questions about products, orders, or your TM NATURALS experience?
+                  Reach out and our team will be happy to help.
+                </p>
+                <a
+                  href="mailto:contact@tm-naturals.com"
+                  className="mt-10 inline-block text-xl sm:text-2xl lg:text-3xl font-medium text-[#010101] underline decoration-[#8FC642] decoration-2 underline-offset-8 transition-colors duration-200 hover:text-[#FFA304] hover:decoration-[#FFA304]"
+                >
+                  contact@tm-naturals.com
+                </a>
+              </div>
+
+              <ContactSectionVisual />
             </div>
           </div>
         </section>
 
         {/* Featured Product */}
-        <section className="bg-tm-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
+        <section className="bg-tm-light">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div className="order-1 flex justify-center lg:justify-start">
                 <div className="relative aspect-square w-full max-w-[540px]">
@@ -232,17 +239,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="order-2 max-w-lg mx-auto lg:mx-0 w-full">
+              <div className="order-2 mx-auto w-full max-w-lg text-center lg:order-2 lg:mx-0 lg:text-left">
                 <SectionHeading
                   eyebrow="Featured Product"
                   title="Daily Fruits & Veggies, Made Simple."
+                  centerOnMobile
                 />
-                <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-                <p className="mt-6 text-tm-muted leading-relaxed">
+                <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+                <p className="mx-auto mt-6 max-w-md text-tm-muted leading-relaxed lg:mx-0 lg:max-w-none">
                   A convenient way to add fruit and vegetable-based nutrition to
                   your everyday wellness routine.
                 </p>
-                <ul className="mt-6 space-y-3">
+                <ul className="mx-auto mt-6 max-w-md space-y-3 text-left lg:mx-0 lg:max-w-none">
                   {featuredHighlights.map((highlight) => (
                     <li
                       key={highlight}
@@ -262,7 +270,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => setFeaturedModalOpen(true)}
-                  className="mt-8 inline-flex items-center justify-center py-3.5 px-8 rounded-lg bg-tm-black text-white text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-green hover:text-tm-black transition-colors duration-200"
+                  className="mt-8 inline-flex w-full items-center justify-center py-3.5 px-8 rounded-lg bg-tm-black text-white text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-green hover:text-tm-black transition-colors duration-200 sm:w-auto"
                 >
                   Shop Fruits &amp; Veggies
                 </button>
@@ -276,15 +284,18 @@ export default function Home() {
         </section>
 
         {/* Inside TM NATURALS — Formula Education */}
-        <section id="formulas" className="scroll-mt-24 bg-tm-soft-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
-            <SectionHeading
-              eyebrow="Inside TM NATURALS"
-              title="Simple Formulas. Clear Ingredients."
-            />
-            <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
+        <section id="formulas" className="scroll-mt-24 bg-tm-white">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
+            <div className="mx-auto flex w-full max-w-[340px] flex-col items-center text-center sm:max-w-xl">
+              <SectionHeading
+                eyebrow="Inside TM NATURALS"
+                title="Simple Formulas. Clear Ingredients."
+                className="w-full text-center"
+              />
+              <div className="mx-auto mt-4 h-1 w-16 shrink-0 rounded-full bg-tm-orange" />
+            </div>
 
-            <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+            <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 md:mt-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
               {formulaCategories.map((category) => {
                 const product = getProductById(category.productId);
                 if (!product) return null;
@@ -292,9 +303,9 @@ export default function Home() {
                 return (
                   <article
                     key={category.productId}
-                    className="flex flex-col pt-6"
+                    className="flex w-full max-w-[320px] flex-col items-center pt-6 text-center"
                   >
-                    <div className="relative aspect-square w-full max-w-[200px] mb-5">
+                    <div className="relative mx-auto mb-5 aspect-square w-full max-w-[200px]">
                       <Image
                         src={product.image}
                         alt={category.name}
@@ -307,12 +318,12 @@ export default function Home() {
                     <h3 className="font-display text-xl font-bold text-tm-black">
                       {category.name}
                     </h3>
-                    <p className="mt-3 flex-1 text-sm text-tm-muted leading-relaxed">
+                    <p className="mx-auto mt-3 max-w-[300px] flex-1 text-center text-sm leading-relaxed text-tm-muted">
                       {category.description}
                     </p>
                     <Link
                       href="#shop"
-                      className="mt-6 inline-flex items-center text-xs font-bold uppercase tracking-[0.14em] text-tm-black transition-colors hover:text-tm-orange"
+                      className="mx-auto mt-6 inline-flex items-center justify-center text-xs font-bold uppercase tracking-[0.14em] text-tm-black transition-colors hover:text-tm-orange"
                     >
                       Shop {category.name}
                       <span className="ml-2" aria-hidden="true">
@@ -327,58 +338,45 @@ export default function Home() {
         </section>
 
         {/* Our Approach */}
-        <section id="approach" className="scroll-mt-24 bg-tm-white">
+        <section id="approach" className="scroll-mt-24 bg-tm-off-white">
           <div className="mx-auto max-w-7xl">
             <div className="grid lg:grid-cols-2 lg:items-stretch">
-              <div className="flex flex-col justify-center px-6 lg:px-10 py-20 lg:py-28 max-w-lg lg:max-w-none">
+              <div className="flex max-w-lg flex-col justify-center px-5 py-14 text-center sm:py-16 lg:max-w-none lg:px-10 lg:py-28 lg:text-left">
                 <SectionHeading
                   eyebrow="Our Approach"
                   title="Wellness That Fits Real Life"
+                  centerOnMobile
                 />
-                <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-                <p className="mt-6 text-tm-muted leading-relaxed">
+                <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+                <p className="mx-auto mt-6 max-w-md text-tm-muted leading-relaxed lg:mx-0 lg:max-w-none">
                   TM NATURALS creates practical, thoughtfully designed supplements
                   for people who want a simpler approach to everyday wellness.
                 </p>
                 <Link
                   href="#about"
-                  className="mt-9 inline-flex items-center justify-center py-3.5 px-8 rounded-lg bg-tm-black text-white text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-green hover:text-tm-black transition-colors duration-200"
+                  className="mx-auto mt-9 inline-flex w-full items-center justify-center py-3.5 px-8 rounded-lg bg-tm-black text-white text-xs font-bold tracking-[0.14em] uppercase hover:bg-tm-green hover:text-tm-black transition-colors duration-200 sm:w-auto lg:mx-0"
                 >
                   Learn About TM NATURALS
                 </Link>
               </div>
 
-              <div className="flex flex-col items-center justify-center bg-tm-black px-6 py-12 lg:px-10 lg:py-28">
-                <p className="font-display text-3xl md:text-4xl font-semibold text-white tracking-wide text-center">
-                  TM NATURALS
-                </p>
-                <div className="mt-4 h-[3px] w-[60px] bg-tm-green" />
-                <div className="relative mt-8 lg:mt-10 aspect-square w-full max-w-[380px] lg:max-w-[430px] overflow-hidden rounded-[20px]">
-                  <Image
-                    src="/images/sea-moss.png"
-                    alt="Sea Moss Capsules"
-                    fill
-                    quality={95}
-                    sizes="(max-width: 1024px) 90vw, 430px"
-                    className="object-contain"
-                  />
-                </div>
-              </div>
+              <ApproachRhythmVisual />
             </div>
           </div>
         </section>
 
         {/* About */}
-        <section id="about" className="scroll-mt-24 bg-tm-soft-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
+        <section id="about" className="scroll-mt-24 bg-tm-white">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              <div className="max-w-xl">
+              <div className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left">
                 <SectionHeading
                   eyebrow="About TM NATURALS"
                   title="Built Around Everyday Wellness."
+                  centerOnMobile
                 />
-                <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full" />
-                <p className="mt-6 text-base text-tm-muted leading-relaxed">
+                <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-tm-orange lg:mx-0" />
+                <p className="mx-auto mt-6 max-w-md text-base leading-relaxed text-tm-muted lg:mx-0 lg:max-w-none">
                   TM NATURALS creates practical, thoughtfully designed supplements
                   for people who want a simpler approach to everyday wellness. We
                   focus on clear formulas, convenient formats, and products that fit
@@ -392,12 +390,13 @@ export default function Home() {
         </section>
 
         {/* Customer Reviews */}
-        <section id="reviews" className="scroll-mt-24 bg-tm-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20 lg:py-28">
-            <div className="text-center max-w-2xl mx-auto mb-14">
+        <section id="reviews" className="scroll-mt-24 bg-tm-light">
+          <div className="mx-auto max-w-7xl px-5 py-14 sm:py-16 lg:px-10 lg:py-28">
+            <div className="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
               <SectionHeading
                 eyebrow="Customer Reviews"
                 title="What Our Customers Say"
+                centerOnMobile
               />
               <div className="mt-4 h-1 w-16 bg-tm-orange rounded-full mx-auto" />
             </div>

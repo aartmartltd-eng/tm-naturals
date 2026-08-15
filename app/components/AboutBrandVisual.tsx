@@ -123,7 +123,7 @@ export default function AboutBrandVisual() {
 
         <p
           style={fadeUp(300)}
-          className="mt-2 max-w-[20rem] text-center text-sm leading-relaxed text-[#686868] lg:text-right"
+          className="mt-2 max-w-[20rem] text-center text-sm leading-relaxed text-tm-muted-secondary lg:text-right"
         >
           We create straightforward wellness products with carefully selected
           ingredients designed to fit naturally into your everyday routine.

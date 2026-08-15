@@ -5,11 +5,15 @@
   --tm-green: #8fc642;
   --tm-orange: #ffa304;
   --tm-white: #ffffff;
-  --tm-soft-white: #fafaf8;
-  --tm-light-gray: #f4f4f1;
+  --tm-off-white: #f8f7f3;
+  --tm-light: #f3f3ef;
+  --tm-dark: #101310;
+  --tm-soft-white: var(--tm-off-white);
+  --tm-light-gray: var(--tm-light);
   --tm-border: #e7e7e2;
-  --tm-muted: #686868;
-  --tm-footer-link: #bdbdbd;
+  --tm-muted: #5f625f;
+  --tm-muted-secondary: #6b6e69;
+  --tm-footer-link: #c8ccc4;
   --background: var(--tm-white);
   --foreground: var(--tm-black);
 }
@@ -21,10 +25,14 @@
   --color-tm-green: var(--tm-green);
   --color-tm-orange: var(--tm-orange);
   --color-tm-white: var(--tm-white);
+  --color-tm-off-white: var(--tm-off-white);
+  --color-tm-light: var(--tm-light);
+  --color-tm-dark: var(--tm-dark);
   --color-tm-soft-white: var(--tm-soft-white);
   --color-tm-light-gray: var(--tm-light-gray);
   --color-tm-border: var(--tm-border);
   --color-tm-muted: var(--tm-muted);
+  --color-tm-muted-secondary: var(--tm-muted-secondary);
   --color-tm-footer-link: var(--tm-footer-link);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-dm-sans);

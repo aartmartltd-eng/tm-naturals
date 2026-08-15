@@ -27,12 +27,16 @@ const supportLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#101310] text-white scroll-mt-24">
+    <footer className="bg-tm-dark text-white scroll-mt-24">
       <div className="mx-auto max-w-7xl px-5 pt-12 lg:px-10 lg:pt-20">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 xl:gap-20">
           {/* Left column — brand identity */}
-          <div className="min-w-0">
-            <Link href="#home" aria-label="TM NATURALS Home" className="inline-block max-w-full">
+          <div className="min-w-0 text-center lg:text-left">
+            <Link
+              href="#home"
+              aria-label="TM NATURALS Home"
+              className="inline-block max-w-full"
+            >
               <span className="inline-block max-w-full bg-white px-2 py-1">
                 <Image
                   src="/images/tm-naturals-logo.png"
@@ -43,7 +47,7 @@ export default function Footer() {
                 />
               </span>
             </Link>
-            <p className="mt-5 max-w-[320px] text-sm leading-relaxed text-white/[0.68] md:text-base">
+            <p className="mx-auto mt-5 max-w-[320px] text-sm leading-relaxed text-white/78 md:text-base lg:mx-0">
               Premium supplements for everyday wellness.
             </p>
           </div>
@@ -109,7 +113,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-2 pt-4 pb-5 text-center text-xs text-white/[0.55] sm:text-sm lg:mt-14 lg:flex-row lg:items-center lg:justify-between lg:text-left">
+        <div className="mt-10 flex flex-col items-center gap-2 pt-4 pb-5 text-center text-xs text-white/60 sm:text-sm lg:mt-14 lg:flex-row lg:items-center lg:justify-between lg:text-left">
           <p>
             © 2026 <span className="text-[#8FC642] font-medium">TM NATURALS</span>. All
             rights reserved.

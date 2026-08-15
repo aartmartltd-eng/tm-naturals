@@ -11,6 +11,7 @@ type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   dark?: boolean;
+  centerOnMobile?: boolean;
   className?: string;
 };
 
@@ -19,10 +20,13 @@ export default function SectionHeading({
   eyebrow,
   title,
   dark = false,
+  centerOnMobile = false,
   className = "",
 }: SectionHeadingProps) {
+  const alignClass = centerOnMobile ? "text-center lg:text-left" : "";
+
   return (
-    <div className={className}>
+    <div className={`${alignClass} ${className}`.trim()}>
       <p className={SECTION_EYEBROW_CLASS}>{eyebrow}</p>
       <h2 className={dark ? SECTION_TITLE_DARK_CLASS : SECTION_TITLE_CLASS}>
         {title}

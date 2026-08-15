@@ -107,29 +107,29 @@ export default function ProductShoppingCard({
       style={enterStyle}
       className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[rgba(1,1,1,0.08)] bg-white shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
     >
-      <div className="relative h-[240px] shrink-0 overflow-hidden bg-[#FAFAFA] md:h-[260px]">
+      <div className="relative h-[225px] shrink-0 overflow-hidden bg-[#FAFAFA] md:h-[240px] lg:h-[260px]">
         <div className="relative h-full w-full transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1">
           <Image
             src={product.image}
             alt={product.name}
             fill
             quality={95}
-            sizes="(max-width: 768px) 90vw, (max-width: 1280px) 45vw, 30vw"
-            className="object-contain p-5 sm:p-6"
+            sizes="(max-width: 768px) 86vw, (max-width: 1280px) 45vw, 30vw"
+            className="object-contain p-4 md:p-5 lg:p-6"
           />
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="min-h-[3.25rem] text-lg font-semibold leading-snug text-[#010101] md:text-xl line-clamp-2">
+      <div className="flex flex-1 flex-col p-4 md:p-5 lg:p-6">
+        <h3 className="min-h-[2.75rem] text-lg font-semibold leading-snug text-[#010101] md:min-h-[3.25rem] md:text-xl line-clamp-2">
           {product.name}
         </h3>
 
-        <p className="mt-2 min-h-[2.75rem] text-sm leading-relaxed text-[#686868] line-clamp-2">
+        <p className="mt-2 min-h-[2.5rem] text-sm leading-relaxed text-[#686868] line-clamp-2 md:min-h-[2.75rem]">
           {description}
         </p>
 
-        <div className="mt-5">
+        <div className="mt-4 md:mt-5">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#010101]">
             Choose Your Pack
           </p>
@@ -173,7 +173,7 @@ export default function ProductShoppingCard({
           </div>
         </div>
 
-        <div className="mt-auto pt-5">
+        <div className="mt-auto pt-4 md:pt-5">
           {selectedVariant && (
             <p className="text-2xl font-semibold text-[#010101]">
               {formatPrice(selectedVariant.price)}

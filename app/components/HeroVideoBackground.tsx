@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-/** Local hero video: public/videos/tm-naturals-hero.mp4 (1920×1080 landscape) */
+/** Local hero video: public/videos/tm-naturals-hero.mp4 (1920×1080, 16:9 landscape) */
 export const HERO_VIDEO_SRC = "/videos/tm-naturals-hero.mp4";
 
 function HeroBrandedFallback() {
@@ -45,7 +45,7 @@ export default function HeroVideoBackground() {
   return (
     <video
       ref={videoRef}
-      className="absolute inset-0 h-full w-full object-cover object-[50%_32%] sm:object-[54%_36%] lg:object-[62%_center]"
+      className="absolute inset-0 h-full w-full object-cover object-[center_40%] lg:object-center"
       autoPlay={allowMotion === true}
       muted
       loop

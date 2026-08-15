@@ -102,13 +102,13 @@ export default function TrustStrip() {
   };
 
   return (
-    <section className="border-b border-black/10 bg-[#F8F7F3]">
-      <div ref={stripRef} className="mx-auto max-w-7xl px-6 py-8 lg:px-10 lg:py-10">
+    <section className="bg-tm-off-white">
+      <div ref={stripRef} className="mx-auto max-w-7xl px-5 py-8 lg:px-10 lg:py-10">
         <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.2em] text-[#8FC642] lg:mb-7">
           THE TM NATURALS STANDARD
         </p>
 
-        <div className="overflow-hidden rounded-2xl border border-black/10 bg-[#F8F7F3]">
+        <div className="overflow-hidden rounded-2xl border border-black/10 bg-tm-off-white">
           <div className="grid grid-cols-2 lg:grid-cols-4">
             {trustItems.map((item, index) => (
               <div
@@ -127,7 +127,7 @@ export default function TrustStrip() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-1.5 max-w-[11rem] text-sm leading-snug text-[#686868]">
+                  <p className="mt-1.5 max-w-[11rem] text-sm leading-snug text-tm-muted-secondary">
                     {item.description}
                   </p>
 
