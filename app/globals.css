@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --tm-black: #010101;
+  --tm-green: #8fc642;
+  --tm-orange: #ffa304;
+  --tm-white: #ffffff;
+  --tm-soft-white: #fafaf8;
+  --tm-light-gray: #f4f4f1;
+  --tm-border: #e7e7e2;
+  --tm-muted: #686868;
+  --tm-footer-link: #bdbdbd;
+  --background: var(--tm-white);
+  --foreground: var(--tm-black);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-tm-black: var(--tm-black);
+  --color-tm-green: var(--tm-green);
+  --color-tm-orange: var(--tm-orange);
+  --color-tm-white: var(--tm-white);
+  --color-tm-soft-white: var(--tm-soft-white);
+  --color-tm-light-gray: var(--tm-light-gray);
+  --color-tm-border: var(--tm-border);
+  --color-tm-muted: var(--tm-muted);
+  --color-tm-footer-link: var(--tm-footer-link);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-dm-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--tm-orange);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shop-product-image:hover {
+    transform: translateY(-4px) scale(1.025);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-product-image {
+    transform: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-showcase-card:hover .product-showcase-num {
+    color: #ffa304;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-showcase-image {
+    transform: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .why-principle-row:hover .why-principle-connector {
+    width: 2.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .why-principle-row:hover .why-principle-connector {
+      width: 2.25rem;
+    }
+  }
+
+  .why-principle-row:hover .why-principle-title {
+    transform: translateX(3px);
+  }
+
+  .why-principle-row:hover .why-principle-desc {
+    color: #454545;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-principle-row {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+.cart-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.cart-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes hero-abstract-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-abstract-enter {
+  opacity: 0;
+  animation: hero-abstract-enter 0.85s ease-out forwards;
+}
+
+.hero-abstract-group:hover .hero-abstract-enter:nth-child(1) {
+  transition: transform 1.2s ease-out;
+}
+
+.cart-scroll::-webkit-scrollbar-thumb {
+  background: var(--tm-border);
+  border-radius: 3px;
 }

@@ -1,0 +1,167 @@
+export const runtime = "nodejs";
+
+import Stripe from "stripe";
+import { NextResponse } from "next/server";
+import { getProductById } from "@/data/products";
+
+interface CheckoutItemRequest {
+  productId: string;
+  variantId: string;
+  quantity: number;
+}
+
+function getOrigin(request: Request): string {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL;
+  const fromHeader = request.headers.get("origin");
+  const origin = fromEnv || fromHeader || "http://localhost:3000";
+  return origin.replace(/\/$/, "");
+}
+
+function isValidQuantity(quantity: unknown): quantity is number {
+  return (
+    typeof quantity === "number" &&
+    Number.isInteger(quantity) &&
+    quantity >= 1 &&
+    quantity <= 10
+  );
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { error: "Method not allowed. Use POST." },
+    { status: 405 },
+  );
+}
+
+export async function POST(request: Request) {
+  try {
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    if (!secretKey) {
+      return NextResponse.json(
+        { error: "Stripe is not configured." },
+        { status: 500 },
+      );
+    }
+
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+    }
+
+    if (!body || typeof body !== "object" || !("items" in body)) {
+      return NextResponse.json(
+        { error: "Request must include an items array." },
+        { status: 400 },
+      );
+    }
+
+    const { items } = body as { items: unknown };
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Cart is empty." }, { status: 400 });
+    }
+
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i] as CheckoutItemRequest;
+
+      if (!item || typeof item !== "object") {
+        return NextResponse.json(
+          { error: `Invalid cart item at index ${i}.` },
+          { status: 400 },
+        );
+      }
+
+      const { productId, variantId, quantity } = item;
+
+      if (typeof productId !== "string" || !productId.trim()) {
+        return NextResponse.json(
+          { error: `Invalid productId at index ${i}.` },
+          { status: 400 },
+        );
+      }
+
+      if (typeof variantId !== "string" || !variantId.trim()) {
+        return NextResponse.json(
+          { error: `Invalid variantId at index ${i}.` },
+          { status: 400 },
+        );
+      }
+
+      if (!isValidQuantity(quantity)) {
+        return NextResponse.json(
+          {
+            error: `Invalid quantity for ${productId} / ${variantId}. Must be an integer between 1 and 10.`,
+          },
+          { status: 400 },
+        );
+      }
+
+      const product = getProductById(productId);
+      if (!product) {
+        return NextResponse.json(
+          { error: `Unknown product: ${productId}.` },
+          { status: 400 },
+        );
+      }
+
+      const variant = product.variants.find((v) => v.id === variantId);
+      if (!variant) {
+        return NextResponse.json(
+          {
+            error: `Unknown variant "${variantId}" for product "${productId}".`,
+          },
+          { status: 400 },
+        );
+      }
+
+      if (!variant.stripePriceId.trim()) {
+        return NextResponse.json(
+          {
+            error: `Variant "${variantId}" for product "${productId}" is not available for checkout.`,
+          },
+          { status: 400 },
+        );
+      }
+
+      lineItems.push({
+        price: variant.stripePriceId,
+        quantity,
+      });
+    }
+
+    const stripe = new Stripe(secretKey);
+    const origin = getOrigin(request);
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: lineItems,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/?checkout=cancelled`,
+      billing_address_collection: "required",
+      shipping_address_collection: {
+        allowed_countries: ["US"],
+      },
+      allow_promotion_codes: true,
+      customer_creation: "always",
+    });
+
+    if (!session.url) {
+      return NextResponse.json(
+        { error: "Unable to create checkout session." },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json({ url: session.url });
+  } catch (error) {
+    console.error("Checkout error:", error);
+    return NextResponse.json(
+      { error: "Unable to start checkout. Please try again." },
+      { status: 500 },
+    );
+  }
+}
