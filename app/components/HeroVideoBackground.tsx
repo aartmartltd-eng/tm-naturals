@@ -15,28 +15,28 @@ function HeroBrandedFallback() {
 
 export default function HeroVideoBackground() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [allowMotion, setAllowMotion] = useState<boolean | null>(null);
   const [videoFailed, setVideoFailed] = useState(false);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video || videoFailed) return;
+
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const syncMotionPreference = () => {
-      setAllowMotion(!mediaQuery.matches);
+    const syncPlayback = () => {
+      if (mediaQuery.matches) {
+        video.pause();
+        return;
+      }
+
+      video.play().catch(() => {
+        setVideoFailed(true);
+      });
     };
 
-    syncMotionPreference();
-    mediaQuery.addEventListener("change", syncMotionPreference);
-    return () => mediaQuery.removeEventListener("change", syncMotionPreference);
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || allowMotion !== true || videoFailed) return;
-
-    video.play().catch(() => {
-      setVideoFailed(true);
-    });
-  }, [allowMotion, videoFailed]);
+    syncPlayback();
+    mediaQuery.addEventListener("change", syncPlayback);
+    return () => mediaQuery.removeEventListener("change", syncPlayback);
+  }, [videoFailed]);
 
   if (videoFailed) {
     return <HeroBrandedFallback />;
@@ -46,7 +46,7 @@ export default function HeroVideoBackground() {
     <video
       ref={videoRef}
       className="absolute inset-0 h-full w-full object-cover object-[center_40%] lg:object-center"
-      autoPlay={allowMotion === true}
+      autoPlay
       muted
       loop
       playsInline

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { Product } from "@/data/products";
 import {
   formatPrice,
@@ -14,16 +14,16 @@ import { useCart } from "@/app/context/CartContext";
 interface ProductShoppingCardProps {
   product: Product;
   index: number;
+  instanceId?: string;
 }
 
 export default function ProductShoppingCard({
   product,
-  index,
+  instanceId = "shop",
 }: ProductShoppingCardProps) {
   const { addItem } = useCart();
   const cardRef = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const quantityFieldId = `shop-quantity-${product.id}-${instanceId}`;
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
@@ -33,51 +33,6 @@ export default function ProductShoppingCard({
   const totalUnits = unitsPerPack * quantity;
   const lineSubtotal = selectedVariant ? selectedVariant.price * quantity : 0;
   const description = product.description ?? product.subtitle;
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const syncReducedMotion = () => {
-      const prefersReduced = mediaQuery.matches;
-      setReducedMotion(prefersReduced);
-      if (prefersReduced) setVisible(true);
-    };
-    syncReducedMotion();
-    mediaQuery.addEventListener("change", syncReducedMotion);
-    return () => mediaQuery.removeEventListener("change", syncReducedMotion);
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const node = cardRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [reducedMotion]);
-
-  const show = visible || reducedMotion;
-
-  const enterStyle = reducedMotion
-    ? undefined
-    : {
-        opacity: show ? 1 : 0,
-        transform: show ? "translateY(0)" : "translateY(14px)",
-        transitionProperty: "opacity, transform",
-        transitionDuration: "550ms",
-        transitionTimingFunction: "ease-out",
-        transitionDelay: `${index * 70}ms`,
-      };
 
   const handleQuantityChange = (delta: number) => {
     setQuantity((prev) => Math.max(1, Math.min(10, prev + delta)));
@@ -104,10 +59,9 @@ export default function ProductShoppingCard({
   return (
     <article
       ref={cardRef}
-      style={enterStyle}
       className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[rgba(1,1,1,0.08)] bg-white shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
     >
-      <div className="relative h-[225px] shrink-0 overflow-hidden bg-[#FAFAFA] md:h-[240px] lg:h-[260px]">
+      <div className="relative h-[225px] min-h-[225px] max-h-[225px] w-full shrink-0 overflow-hidden bg-[#FAFAFA] md:h-[240px] md:min-h-[240px] md:max-h-[240px] lg:h-[260px] lg:min-h-[260px] lg:max-h-[260px]">
         <div className="relative h-full w-full transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1">
           <Image
             src={product.image}
@@ -182,7 +136,7 @@ export default function ProductShoppingCard({
 
           <div className="mt-4">
             <label
-              htmlFor={`shop-quantity-${product.id}`}
+              htmlFor={quantityFieldId}
               className="text-xs font-bold uppercase tracking-[0.12em] text-[#010101]"
             >
               Quantity
@@ -198,7 +152,7 @@ export default function ProductShoppingCard({
                 −
               </button>
               <input
-                id={`shop-quantity-${product.id}`}
+                id={quantityFieldId}
                 type="number"
                 min={1}
                 max={10}

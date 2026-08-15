@@ -33,18 +33,26 @@ export default function AboutBrandVisual() {
     const node = visualRef.current;
     if (!node) return;
 
+    const fallbackTimer = window.setTimeout(() => {
+      setVisible(true);
+    }, 700);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
           observer.disconnect();
+          window.clearTimeout(fallbackTimer);
         }
       },
       { threshold: 0.2 },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallbackTimer);
+    };
   }, [reducedMotion]);
 
   const show = visible || reducedMotion;

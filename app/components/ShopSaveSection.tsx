@@ -32,6 +32,11 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
   const reducedMotionRef = useRef(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const syncActiveIndexFromScroll = useCallback(() => {
     const container = scrollRef.current;
@@ -46,7 +51,9 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
   const scrollToIndex = useCallback(
     (index: number, smooth = true) => {
       const container = scrollRef.current;
-      if (!container) return;
+      if (!container || products.length === 0 || container.clientWidth === 0) {
+        return;
+      }
 
       const clamped = Math.max(0, Math.min(products.length - 1, index));
       const prefersReduced = reducedMotionRef.current;
@@ -97,6 +104,8 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+
     const container = scrollRef.current;
     if (!container) return;
 
@@ -108,9 +117,11 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
     container.addEventListener("scroll", onScroll, { passive: true });
 
     return () => container.removeEventListener("scroll", onScroll);
-  }, [syncActiveIndexFromScroll]);
+  }, [mounted, syncActiveIndexFromScroll]);
 
   useEffect(() => {
+    if (!mounted || products.length <= 1) return;
+
     const startAutoplay = () => {
       if (autoplayIntervalRef.current !== null) {
         window.clearInterval(autoplayIntervalRef.current);
@@ -123,10 +134,14 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
           autoplayPausedRef.current ||
           document.hidden ||
           !isMobileViewport() ||
-          reducedMotionRef.current
+          reducedMotionRef.current ||
+          products.length <= 1
         ) {
           return;
         }
+
+        const container = scrollRef.current;
+        if (!container || container.clientWidth === 0) return;
 
         const nextIndex = (activeIndexRef.current + 1) % products.length;
         scrollToIndex(nextIndex, true);
@@ -171,22 +186,22 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
         window.clearTimeout(resumeTimeoutRef.current);
       }
     };
-  }, [products.length, scrollToIndex]);
+  }, [mounted, products.length, scrollToIndex]);
 
   const goToPrevious = useCallback(() => {
-    if (!isMobileViewport()) return;
+    if (!mounted || !isMobileViewport() || products.length === 0) return;
     handleUserInteraction();
     const previousIndex =
       (activeIndexRef.current - 1 + products.length) % products.length;
     scrollToIndex(previousIndex, true);
-  }, [handleUserInteraction, products.length, scrollToIndex]);
+  }, [mounted, handleUserInteraction, products.length, scrollToIndex]);
 
   const goToNext = useCallback(() => {
-    if (!isMobileViewport()) return;
+    if (!mounted || !isMobileViewport() || products.length === 0) return;
     handleUserInteraction();
     const nextIndex = (activeIndexRef.current + 1) % products.length;
     scrollToIndex(nextIndex, true);
-  }, [handleUserInteraction, products.length, scrollToIndex]);
+  }, [mounted, handleUserInteraction, products.length, scrollToIndex]);
 
   return (
     <>
@@ -217,7 +232,11 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
                   key={product.id}
                   className="min-w-full w-full shrink-0 snap-start snap-always"
                 >
-                  <ProductShoppingCard product={product} index={index} />
+                  <ProductShoppingCard
+                    product={product}
+                    index={index}
+                    instanceId="carousel"
+                  />
                 </div>
               ))}
             </div>
@@ -256,7 +275,11 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
             key={product.id}
             className={`min-w-0 ${getDesktopGridClass(index)}`}
           >
-            <ProductShoppingCard product={product} index={index} />
+            <ProductShoppingCard
+              product={product}
+              index={index}
+              instanceId="grid"
+            />
           </div>
         ))}
       </div>
