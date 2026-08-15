@@ -10,11 +10,52 @@ interface CheckoutItemRequest {
   quantity: number;
 }
 
+function normalizeOrigin(value: string | null | undefined): string | null {
+  if (!value) return null;
+
+  const trimmed = value.trim();
+
+  try {
+    const url = new URL(trimmed);
+
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return null;
+    }
+
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
 function getOrigin(request: Request): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL;
-  const fromHeader = request.headers.get("origin");
-  const origin = fromEnv || fromHeader || "http://localhost:3000";
-  return origin.replace(/\/$/, "");
+  const envOrigin = normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL);
+
+  if (envOrigin) {
+    return envOrigin;
+  }
+
+  const requestOrigin = normalizeOrigin(request.headers.get("origin"));
+
+  if (requestOrigin) {
+    return requestOrigin;
+  }
+
+  throw new Error("A valid site URL could not be determined.");
+}
+
+function buildCheckoutUrls(request: Request): {
+  successUrl: string;
+  cancelUrl: string;
+} {
+  const origin = getOrigin(request);
+  const cancelUrl = new URL("/", origin);
+  cancelUrl.searchParams.set("checkout", "cancelled");
+
+  return {
+    successUrl: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancelUrl: cancelUrl.toString(),
+  };
 }
 
 function isValidQuantity(quantity: unknown): quantity is number {
@@ -149,13 +190,25 @@ export async function POST(request: Request) {
     }
 
     const stripe = new Stripe(secretKey);
-    const origin = getOrigin(request);
+
+    let successUrl: string;
+    let cancelUrl: string;
+
+    try {
+      ({ successUrl, cancelUrl } = buildCheckoutUrls(request));
+    } catch {
+      console.error("Invalid production site URL configuration.");
+      return NextResponse.json(
+        { error: "Checkout URL configuration is invalid." },
+        { status: 500 },
+      );
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/?checkout=cancelled`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
       billing_address_collection: "required",
       shipping_address_collection: {
         allowed_countries: ["US"],
