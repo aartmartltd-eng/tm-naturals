@@ -33,12 +33,27 @@ export async function GET() {
   );
 }
 
+function getStripeSecretKey(): string | null {
+  const raw = process.env.STRIPE_SECRET_KEY;
+  if (!raw?.trim()) {
+    return null;
+  }
+
+  const secretKey = raw.trim();
+  if (!/^sk_(live|test)_/.test(secretKey)) {
+    return null;
+  }
+
+  return secretKey;
+}
+
 export async function POST(request: Request) {
   try {
-    const secretKey = process.env.STRIPE_SECRET_KEY;
+    const secretKey = getStripeSecretKey();
     if (!secretKey) {
+      console.error("Stripe Checkout error: STRIPE_SECRET_KEY is missing or invalid.");
       return NextResponse.json(
-        { error: "Stripe is not configured." },
+        { error: "Stripe server configuration is missing." },
         { status: 500 },
       );
     }
@@ -158,9 +173,20 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error("Checkout error:", error);
+    console.error("Stripe Checkout error:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      type:
+        typeof error === "object" && error !== null && "type" in error
+          ? String(error.type)
+          : undefined,
+    });
     return NextResponse.json(
-      { error: "Unable to start checkout. Please try again." },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Unable to create Stripe Checkout session.",
+      },
       { status: 500 },
     );
   }

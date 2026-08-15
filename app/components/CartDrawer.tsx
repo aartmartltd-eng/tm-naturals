@@ -75,7 +75,9 @@ export default function CartDrawer() {
       const data = (await response.json()) as { url?: string; error?: string };
 
       if (!response.ok) {
-        throw new Error(data.error || "Unable to start checkout.");
+        throw new Error(
+          data.error || "Unable to start checkout. Please try again.",
+        );
       }
 
       if (!data.url) {
