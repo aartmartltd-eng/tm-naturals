@@ -14,25 +14,7 @@ import SectionHeading from "@/app/components/SectionHeading";
 import WhyFeaturesList from "@/app/components/WhyFeaturesList";
 import WhyIntro from "@/app/components/WhyIntro";
 import AboutBrandVisual from "@/app/components/AboutBrandVisual";
-
-const trustMetrics = [
-  {
-    title: "Premium Formulas",
-    description: "Thoughtfully selected ingredients",
-  },
-  {
-    title: "Multiple Wellness Options",
-    description: "5 product families",
-  },
-  {
-    title: "Secure Checkout",
-    description: "Powered by Stripe",
-  },
-  {
-    title: "U.S. Shipping",
-    description: "Available nationwide",
-  },
-];
+import TrustStrip from "@/app/components/TrustStrip";
 
 const formulaCategories = [
   {
@@ -168,26 +150,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust Metrics — White */}
-        <section className="bg-tm-white border-b border-tm-border">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-tm-border">
-              {trustMetrics.map((metric) => (
-                <div
-                  key={metric.title}
-                  className="py-6 sm:py-0 sm:px-8 first:sm:pl-0 last:sm:pr-0"
-                >
-                  <p className="font-display text-xl sm:text-2xl font-bold text-tm-black leading-snug">
-                    {metric.title}
-                  </p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-tm-green">
-                    {metric.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <TrustStrip />
 
         {/* Shop & Save */}
         <section id="shop" className="scroll-mt-24 bg-tm-white">
