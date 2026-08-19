@@ -77,10 +77,10 @@ export function getProductIdFromSlug(slug: string): string | undefined {
 
 /**
  * Build gallery paths from the main product image filename.
- * Only include additionalIndexes for files that exist in public/images/.
+ * Use once real secondary images exist in public/images/.
  *
- * Example: buildGalleryImagePaths("/images/fruits-veggies.png", [1, 2])
- * → fruits-veggies.png, fruits-veggies-1.png, fruits-veggies-2.png
+ * Example: buildGalleryImagePaths("/images/fruits-veggies.png", [1, 2, 3, 4])
+ * → fruits-veggies.png, fruits-veggies-1.png, fruits-veggies-2.png, ...
  */
 export function buildGalleryImagePaths(
   mainImagePath: string,
@@ -98,6 +98,21 @@ export function buildGalleryImagePaths(
   ];
 }
 
+/**
+ * Temporary placeholder gallery: repeats the main image path for each slide
+ * so carousel UI (5 dots, 1/5 counter, autoplay, arrows, swipe, thumbnails)
+ * stays testable until real secondary images are uploaded.
+ *
+ * When ready, replace buildPlaceholderGalleryPaths(...) with:
+ *   buildGalleryImagePaths("/images/fruits-veggies.png", [1, 2, 3, 4])
+ */
+export function buildPlaceholderGalleryPaths(
+  mainImagePath: string,
+  slideCount = 5,
+): string[] {
+  return Array.from({ length: slideCount }, () => mainImagePath);
+}
+
 function ingredient(name: string, description: string): ProductIngredient {
   return { name, description };
 }
@@ -108,7 +123,7 @@ export const productDetails: ProductDetailContent[] = [
     productId: "fruits-veggies",
     displayName: "Fruits & Veggies",
     descriptor: "16 Whole Fruits + 15 Whole Vegetables",
-    images: buildGalleryImagePaths("/images/fruits-veggies.png", [1, 2, 3, 4]),
+    images: buildPlaceholderGalleryPaths("/images/fruits-veggies.png"),
     seoTitle: "Fruits & Veggies | TM NATURALS",
     seoDescription:
       "Whole-food fruit and vegetable capsules with 16 whole fruits and 15 whole vegetables. 90 capsules per bottle, 3 capsules daily.",
@@ -226,7 +241,7 @@ export const productDetails: ProductDetailContent[] = [
     productId: "shilajit-seamoss",
     displayName: "Shilajit + Sea Moss Capsules",
     descriptor: "Premium Dual-Ingredient Daily Capsules",
-    images: buildGalleryImagePaths("/images/shilajit-seamoss.png", [1, 2, 3, 4]),
+    images: buildPlaceholderGalleryPaths("/images/shilajit-seamoss.png"),
     seoTitle: "Shilajit + Sea Moss Capsules | TM NATURALS",
     seoDescription:
       "A thoughtfully formulated capsule with shilajit, sea moss, and complementary botanical ingredients for everyday wellness.",
@@ -328,7 +343,7 @@ export const productDetails: ProductDetailContent[] = [
     productId: "sea-moss",
     displayName: "Sea Moss Capsules",
     descriptor: "Multi-Ingredient Daily Wellness Capsules",
-    images: buildGalleryImagePaths("/images/sea-moss.png", [1, 2, 3, 4]),
+    images: buildPlaceholderGalleryPaths("/images/sea-moss.png"),
     seoTitle: "Sea Moss Capsules | TM NATURALS",
     seoDescription:
       "Sea moss capsules with complementary botanical and vitamin ingredients for everyday wellness.",
@@ -410,7 +425,7 @@ export const productDetails: ProductDetailContent[] = [
     productId: "shilajit-resin",
     displayName: "Pure Himalayan Shilajit Resin",
     descriptor: "30 g Pure Himalayan Shilajit Resin",
-    images: buildGalleryImagePaths("/images/shilajit-resin.png", [1, 2, 3, 4]),
+    images: buildPlaceholderGalleryPaths("/images/shilajit-resin.png"),
     seoTitle: "Pure Himalayan Shilajit Resin | TM NATURALS",
     seoDescription:
       "Pure Himalayan shilajit resin in a traditional concentrated format. 30 g per jar, lab-tested for quality.",
@@ -507,7 +522,7 @@ export const productDetails: ProductDetailContent[] = [
     productId: "beet-root-gummies",
     displayName: "Beet Root Gummies",
     descriptor: "Beet Root, Pomegranate & Wellness Nutrients",
-    images: buildGalleryImagePaths("/images/beet-root-gummies.png", [1, 2, 3, 4]),
+    images: buildPlaceholderGalleryPaths("/images/beet-root-gummies.png"),
     seoTitle: "Beet Root Gummies | TM NATURALS",
     seoDescription:
       "Beet root and pomegranate gummies with CoQ10, L-Citrulline, and B12 in a convenient daily gummy format.",
