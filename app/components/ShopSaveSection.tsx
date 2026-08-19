@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Product } from "@/data/products";
+import CarouselNavButton from "@/app/components/CarouselNavButton";
 import ProductShoppingCard from "@/app/components/ProductShoppingCard";
 
 interface ShopSaveSectionProps {
@@ -211,11 +212,13 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
             direction="previous"
             onClick={goToPrevious}
             ariaLabel="Previous product"
+            className="left-1"
           />
           <CarouselNavButton
             direction="next"
             onClick={goToNext}
             ariaLabel="Next product"
+            className="right-1"
           />
 
           <div className="overflow-hidden ml-[60px] mr-[60px]">
@@ -287,77 +290,3 @@ export default function ShopSaveSection({ products }: ShopSaveSectionProps) {
   );
 }
 
-function CarouselNavButton({
-  direction,
-  onClick,
-  ariaLabel,
-}: {
-  direction: "previous" | "next";
-  onClick: () => void;
-  ariaLabel: string;
-}) {
-  const isPrevious = direction === "previous";
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={ariaLabel}
-      className={`group absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[rgba(1,1,1,0.15)] bg-[rgba(255,255,255,0.88)] text-[#010101] shadow-[0_2px_14px_rgba(1,1,1,0.08)] backdrop-blur-[6px] transition-all duration-200 hover:bg-[#010101] hover:text-white active:bg-[#010101] active:text-white ${
-        isPrevious ? "left-1" : "right-1"
-      }`}
-    >
-      <span
-        aria-hidden="true"
-        className={`pointer-events-none absolute inset-[5px] rounded-full border border-transparent ${
-          isPrevious
-            ? "border-l-[#8FC642] border-t-[#8FC642]"
-            : "border-r-[#8FC642] border-b-[#8FC642]"
-        }`}
-      />
-      <span
-        aria-hidden="true"
-        className={`pointer-events-none absolute h-2 w-0.5 rounded-full bg-[#8FC642] transition-colors duration-200 group-hover:bg-[#8FC642] ${
-          isPrevious
-            ? "left-2 top-1/2 -translate-y-1/2"
-            : "right-2 top-1/2 -translate-y-1/2"
-        }`}
-      />
-      {isPrevious ? (
-        <ChevronLeftIcon className="relative z-[1] transition-transform duration-200 group-hover:-translate-x-0.5 group-active:-translate-x-0.5" />
-      ) : (
-        <ChevronRightIcon className="relative z-[1] transition-transform duration-200 group-hover:translate-x-0.5 group-active:translate-x-0.5" />
-      )}
-    </button>
-  );
-}
-
-function ChevronLeftIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.8}
-      className={`h-[18px] w-[18px] ${className}`}
-      aria-hidden="true"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="m14.5 6.5-5.5 5.5 5.5 5.5" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.8}
-      className={`h-[18px] w-[18px] ${className}`}
-      aria-hidden="true"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="m9.5 6.5 5.5 5.5-5.5 5.5" />
-    </svg>
-  );
-}

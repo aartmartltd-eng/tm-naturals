@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { useCart } from "@/app/context/CartContext";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Shop", href: "#shop" },
-  { label: "Best Sellers", href: "#best-sellers" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Shop", href: "/#shop" },
+  { label: "Best Sellers", href: "/#best-sellers" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Header() {
@@ -54,7 +54,7 @@ export default function Header() {
         <div className="mx-auto max-w-7xl px-4 sm:px-5 lg:px-10">
           <div className="flex h-[78px] items-center justify-between gap-3 lg:grid lg:h-[88px] lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
             <Link
-              href="#home"
+              href="/#home"
               className="relative flex shrink-0 items-center lg:justify-self-start"
               aria-label="TM NATURALS Home"
             >

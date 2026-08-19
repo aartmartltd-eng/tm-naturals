@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useCallback, useRef, useState } from "react";
 import type { Product } from "@/data/products";
 import {
   formatPrice,
@@ -9,7 +9,9 @@ import {
   hasPackUnits,
   isBestValueVariant,
 } from "@/data/products";
+import { getProductGalleryImages, getProductSlug } from "@/data/productDetails";
 import { useCart } from "@/app/context/CartContext";
+import ProductCardImageCarousel from "@/app/components/ProductCardImageCarousel";
 
 interface ProductShoppingCardProps {
   product: Product;
@@ -17,15 +19,24 @@ interface ProductShoppingCardProps {
   instanceId?: string;
 }
 
+const PURCHASE_PAUSE_MS = 8000;
+
 export default function ProductShoppingCard({
   product,
   instanceId = "shop",
 }: ProductShoppingCardProps) {
   const { addItem } = useCart();
   const cardRef = useRef<HTMLElement>(null);
+  const purchasePauseTimeoutRef = useRef<number | null>(null);
   const quantityFieldId = `shop-quantity-${product.id}-${instanceId}`;
+  const quantityLabelId = `${quantityFieldId}-label`;
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [purchasePaused, setPurchasePaused] = useState(false);
+
+  const galleryImagesRaw = getProductGalleryImages(product.id);
+  const galleryImages =
+    galleryImagesRaw.length > 0 ? galleryImagesRaw : [product.image];
 
   const selectedVariant = product.variants[selectedVariantIndex];
   const showPackUnits = hasPackUnits(product);
@@ -34,7 +45,21 @@ export default function ProductShoppingCard({
   const lineSubtotal = selectedVariant ? selectedVariant.price * quantity : 0;
   const description = product.description ?? product.subtitle;
 
+  const pauseForPurchase = useCallback(() => {
+    setPurchasePaused(true);
+
+    if (purchasePauseTimeoutRef.current !== null) {
+      window.clearTimeout(purchasePauseTimeoutRef.current);
+    }
+
+    purchasePauseTimeoutRef.current = window.setTimeout(() => {
+      setPurchasePaused(false);
+      purchasePauseTimeoutRef.current = null;
+    }, PURCHASE_PAUSE_MS);
+  }, []);
+
   const handleQuantityChange = (delta: number) => {
+    pauseForPurchase();
     setQuantity((prev) => Math.max(1, Math.min(10, prev + delta)));
   };
 
@@ -62,16 +87,12 @@ export default function ProductShoppingCard({
       className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[rgba(1,1,1,0.08)] bg-white shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
     >
       <div className="relative h-[225px] min-h-[225px] max-h-[225px] w-full shrink-0 overflow-hidden bg-[#FAFAFA] md:h-[240px] md:min-h-[240px] md:max-h-[240px] lg:h-[260px] lg:min-h-[260px] lg:max-h-[260px]">
-        <div className="relative h-full w-full transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-1">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            quality={95}
-            sizes="(max-width: 768px) 86vw, (max-width: 1280px) 45vw, 30vw"
-            className="object-contain p-4 md:p-5 lg:p-6"
-          />
-        </div>
+        <ProductCardImageCarousel
+          images={galleryImages}
+          alt={product.name}
+          instanceId={`${product.id}-${instanceId}`}
+          externalPause={purchasePaused}
+        />
       </div>
 
       <div className="flex flex-1 flex-col p-4 md:p-5 lg:p-6">
@@ -82,6 +103,19 @@ export default function ProductShoppingCard({
         <p className="mt-2 min-h-[2.5rem] text-sm leading-relaxed text-[#686868] line-clamp-2 md:min-h-[2.75rem]">
           {description}
         </p>
+
+        <Link
+          href={`/products/${getProductSlug(product.id)}`}
+          className="group/details mt-4 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-[#8FC642] bg-[#8FC642] px-4 text-sm font-semibold text-[#010101] transition-all duration-300 hover:border-[#8FC642] hover:bg-white focus-visible:border-[#8FC642] focus-visible:bg-white"
+        >
+          View Product Details
+          <span
+            className="text-[#010101] transition-all duration-300 group-hover/details:translate-x-[3px] group-hover/details:text-[#8FC642] group-focus-visible/details:translate-x-[3px] group-focus-visible/details:text-[#8FC642]"
+            aria-hidden="true"
+          >
+            →
+          </span>
+        </Link>
 
         <div className="mt-4 md:mt-5">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#010101]">
@@ -99,7 +133,10 @@ export default function ProductShoppingCard({
                 <button
                   key={variant.id}
                   type="button"
-                  onClick={() => setSelectedVariantIndex(variantIndex)}
+                  onClick={() => {
+                    pauseForPurchase();
+                    setSelectedVariantIndex(variantIndex);
+                  }}
                   className={`relative rounded-lg border px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide transition-colors duration-200 ${
                     isSelected
                       ? "border-[#010101] bg-[#010101] text-white"
@@ -134,43 +171,36 @@ export default function ProductShoppingCard({
             </p>
           )}
 
-          <div className="mt-4">
-            <label
-              htmlFor={quantityFieldId}
+          <div className="mt-4" role="group" aria-labelledby={quantityLabelId}>
+            <p
+              id={quantityLabelId}
               className="text-xs font-bold uppercase tracking-[0.12em] text-[#010101]"
             >
               Quantity
-            </label>
+            </p>
             <div className="mt-2 flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => handleQuantityChange(-1)}
                 disabled={quantity <= 1}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-lg text-[#010101] transition-colors hover:border-[#8FC642] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-lg leading-none text-[#010101] transition-colors hover:border-[#8FC642] disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Decrease quantity"
               >
                 −
               </button>
-              <input
+              <div
                 id={quantityFieldId}
-                type="number"
-                min={1}
-                max={10}
-                value={quantity}
-                onChange={(e) => {
-                  const val = parseInt(e.target.value, 10);
-                  if (!isNaN(val)) {
-                    setQuantity(Math.max(1, Math.min(10, val)));
-                  }
-                }}
-                className="h-10 w-12 rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-center text-sm font-semibold text-[#010101] outline-none focus:border-[#8FC642] focus:ring-1 focus:ring-[#8FC642]/30"
+                aria-live="polite"
                 aria-label="Quantity of packs"
-              />
+                className="inline-flex h-11 w-12 shrink-0 items-center justify-center rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-center text-sm font-semibold leading-none text-[#010101]"
+              >
+                {quantity}
+              </div>
               <button
                 type="button"
                 onClick={() => handleQuantityChange(1)}
                 disabled={quantity >= 10}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-lg text-[#010101] transition-colors hover:border-[#8FC642] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[rgba(1,1,1,0.15)] bg-white text-lg leading-none text-[#010101] transition-colors hover:border-[#8FC642] disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Increase quantity"
               >
                 +

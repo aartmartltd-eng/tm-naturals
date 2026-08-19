@@ -176,6 +176,10 @@ export function getProductById(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
 
+export function getStartingPrice(product: Product): number {
+  return Math.min(...product.variants.map((variant) => variant.price));
+}
+
 export function formatPrice(price: number): string {
   return `$${price.toFixed(2)}`;
 }
